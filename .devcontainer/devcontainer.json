@@ -1,5 +1,5 @@
 {
-  "name": "Smart AI Router",
+  "name": "ApplyBrain Dev Environment",
 
   // Single container approach — VS Code builds this one container and attaches.
   // Run all other services (postgres, redis, ollama etc.) separately with:
@@ -14,7 +14,7 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 
   // Connect to the existing docker network so this container can reach postgres, redis etc.
-  "runArgs": ["--network=smart-ai-router_default"],
+  "runArgs": ["--network=applybrain_default"],
 
   "customizations": {
     "vscode": {

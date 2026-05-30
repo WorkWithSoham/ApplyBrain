@@ -99,11 +99,16 @@ class TaskClassifier:
     def _score(text: str, compiled_patterns: list[re.Pattern]) -> int:
         return sum(1 for p in compiled_patterns if p.search(text))
 
-    # ── Future hook ────────────────────────────────────────────────────────────
-    # def _embedding_classify(self, prompt: str) -> str:
-    #     from sentence_transformers import SentenceTransformer, util
-    #     model = SentenceTransformer("all-MiniLM-L6-v2")
-    #     prompt_emb = model.encode(prompt, convert_to_tensor=True)
-    #     label_embs = model.encode(TASK_TYPES, convert_to_tensor=True)
-    #     scores = util.cos_sim(prompt_emb, label_embs)[0]
-    #     return TASK_TYPES[scores.argmax()]
+    def _embedding_classify(self, prompt: str) -> str:
+        """
+        Zero-shot classification using semantic similarity.
+        Requires: pip install sentence-transformers
+        """
+        from sentence_transformers import SentenceTransformer, util
+        import torch
+
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+        prompt_emb = model.encode(prompt, convert_to_tensor=True)
+        label_embs = model.encode(TASK_TYPES, convert_to_tensor=True)
+        scores = util.cos_sim(prompt_emb, label_embs)[0]
+        return TASK_TYPES[torch.argmax(scores).item()]

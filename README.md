@@ -1,8 +1,8 @@
-# Smart AI Router
+# ApplyBrain: AI Job Application Intelligence
 
-A self-hosted AI inference gateway with intelligent model routing and a self-learning feedback loop.
-Routes requests across multiple LLM backends (Ollama locally, Gemini free tier) based on task type,
-then continuously improves routing decisions from response quality scores.
+An intelligent job application assistant built on a self-learning AI router. 
+ApplyBrain parses resumes, analyzes Job Descriptions (JDs), calculates match scores, 
+identifies missing keywords, and generates tailored cover letters.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ Client → [Layer 1: Spring Boot Gateway] → [Layer 2: Python Smart Router] →
 
 ```bash
 # 1. Clone and configure
-git clone https://github.com/WorkWithSoham/Smart-AI-Router.git
+git clone https://github.com/WorkWithSoham/ApplyBrain.git
 cd smart-ai-router
 cp .env.example .env
 # Edit .env and add your GEMINI_API_KEY

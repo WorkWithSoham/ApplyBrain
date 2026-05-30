@@ -11,6 +11,7 @@ import time
 import uuid
 import logging
 import httpx
+from urllib.parse import urlparse
 import asyncpg
 import chromadb
 from fastapi import FastAPI, HTTPException
@@ -38,19 +39,16 @@ async def lifespan(app: FastAPI):
 
     # ChromaDB v0.6.x — parse host and port from URL
     chroma_url = os.environ.get("CHROMA_URL", "http://chromadb:8000")
-    chroma_host = chroma_url.replace("http://", "").split(":")[0]
-    chroma_port = (
-        int(chroma_url.replace("http://", "").split(":")[1])
-        if ":" in chroma_url.replace("http://", "")
-        else 8000
-    )
-    chroma_client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
+    parsed = urlparse(chroma_url)
+    host = parsed.hostname or "chromadb"
+    port = parsed.port or 8000
+    chroma_client = chromadb.HttpClient(host=host, port=port)
 
     yield
     await db_pool.close()
 
 
-app = FastAPI(title="AI Smart Router", lifespan=lifespan)
+app = FastAPI(title="ApplyBrain Router", lifespan=lifespan)
 
 # ─── Models ───────────────────────────────────────────────────────────────────
 
