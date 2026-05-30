@@ -1,0 +1,61 @@
+{
+  "name": "Smart AI Router",
+
+  // Single container approach — VS Code builds this one container and attaches.
+  // Run all other services (postgres, redis, ollama etc.) separately with:
+  //   docker compose up -d
+  // from the project root BEFORE opening in dev container.
+  "build": {
+    "context": "..",
+    "dockerfile": "./Dockerfile.devcontainer"
+  },
+
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  // Connect to the existing docker network so this container can reach postgres, redis etc.
+  "runArgs": ["--network=smart-ai-router_default"],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-maven",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "humao.rest-client",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "continue.continue",
+        "googlecloudtools.cloudcode"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+
+  "forwardPorts": [8080, 8081, 8082, 5432, 6379, 8000, 9090, 3000, 11434, 8501],
+  "portsAttributes": {
+    "8080": { "label": "Gateway" },
+    "8081": { "label": "Router (Swagger: /docs)" },
+    "8082": { "label": "Feedback (Swagger: /docs)" },
+    "5432": { "label": "PostgreSQL" },
+    "6379": { "label": "Redis" },
+    "8000": { "label": "ChromaDB" },
+    "9090": { "label": "Prometheus" },
+    "3000": { "label": "Grafana" },
+    "11434": { "label": "Ollama" },
+    "8501": { "label": "Dashboard" }
+  },
+
+  "postStartCommand": "bash /workspace/.devcontainer/post-start.sh",
+
+  "remoteUser": "vscode"
+}

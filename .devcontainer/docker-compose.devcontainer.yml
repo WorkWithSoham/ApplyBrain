@@ -1,0 +1,33 @@
+services:
+
+  devcontainer:
+    build:
+      context: .devcontainer    # only needs the Dockerfile, no project files
+      dockerfile: Dockerfile.devcontainer
+    volumes:
+      - .:/workspace:cached     # entire project mounted here
+      - maven-cache:/root/.m2
+      - pip-cache:/root/.cache/pip
+    command: sleep infinity
+    environment:
+      DATABASE_URL: postgresql://ai_router:changeme_local@postgres:5432/ai_router
+      REDIS_URL: redis://redis:6379
+      CHROMA_URL: http://chromadb:8000
+      OLLAMA_URL: http://ollama:11434
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ai_router
+      SPRING_DATASOURCE_USERNAME: ai_router
+      SPRING_DATASOURCE_PASSWORD: changeme_local
+      REDIS_HOST: redis
+      ROUTER_URL: http://router:8081
+      API_KEYS: dev-key-123
+    depends_on:
+      - postgres
+      - redis
+      - chromadb
+      - ollama
+    networks:
+      - default
+
+volumes:
+  maven-cache:
+  pip-cache:

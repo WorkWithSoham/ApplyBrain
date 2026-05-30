@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Java
+target/
+build/
+*.class
+*.jar
+
+# Environment & Secrets
+.env
+.env.*
+! .env.example
+
+# IDEs & System
+.vscode/
+.idea/
+*.swp
+.DS_Store
