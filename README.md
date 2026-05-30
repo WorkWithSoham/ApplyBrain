@@ -58,14 +58,6 @@ curl -X POST http://localhost:8080/v1/chat \
   -d '{"prompt": "What is 2+2?", "task_type": "auto"}'
 ```
 
-## Build Order (Recommended)
-
-1. **Week 1–2**: Gateway core — auth filter, rate limiting with Redis, request/response logging to PostgreSQL
-2. **Week 3–4**: Router service — task classifier (keyword + embedding heuristics), model selector, Ollama integration
-3. **Week 5–6**: Feedback engine — response scorer (latency + heuristic quality), nightly weight updater
-4. **Week 7–8**: Observability — Prometheus metrics, Grafana dashboard, end-to-end testing
-5. **Week 9+**: Semantic caching with ChromaDB, Gemini integration, polish
-
 ## Project Structure
 
 ```
