@@ -38,7 +38,7 @@ Client → [Layer 1: Spring Boot Gateway] → [Layer 2: Python Smart Router] →
 
 ```bash
 # 1. Clone and configure
-git clone <your-repo>
+git clone https://github.com/WorkWithSoham/Smart-AI-Router.git
 cd smart-ai-router
 cp .env.example .env
 # Edit .env and add your GEMINI_API_KEY
