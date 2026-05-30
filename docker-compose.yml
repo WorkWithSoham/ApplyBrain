@@ -13,6 +13,7 @@ services:
       - ./gateway/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01_gateway.sql
       - ./router/app/schema.sql:/docker-entrypoint-initdb.d/02_router.sql
       - ./feedback/schema.sql:/docker-entrypoint-initdb.d/03_feedback.sql
+      - ./autoapply/schema.sql:/docker-entrypoint-initdb.d/04_autoapply.sql
     ports:
       - "5432:5432"
     healthcheck:
@@ -100,6 +101,20 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  autoapply:
+    build:
+      context: ./autoapply
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ai_router}:${POSTGRES_PASSWORD:-changeme_local}@postgres:5432/ai_router
+    depends_on:
+      postgres:
+        condition: service_healthy
+      router:
+        condition: service_started
 
   # ─── Observability ────────────────────────────────────────────
 
